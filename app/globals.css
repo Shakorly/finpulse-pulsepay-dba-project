@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-thumb { background: #2A3D55; border-radius: 2px; }
+}
+@layer components {
+  .card { @apply bg-ink-800 border border-slate-wire/40 rounded-xl; }
+  .card-sm { @apply bg-ink-800 border border-slate-wire/40 rounded-lg; }
+  .stat-label { @apply text-xs font-bold uppercase tracking-widest text-slate-ghost; }
+  .stat-value { @apply text-3xl font-black font-display leading-none; }
+  .btn-primary { @apply inline-flex items-center gap-2 px-4 py-2 bg-volt text-ink-950 font-bold text-sm rounded-lg hover:bg-volt-dim active:scale-95 transition-all duration-150; }
+  .btn-ghost { @apply inline-flex items-center gap-2 px-4 py-2 border border-slate-wire/50 text-slate-soft font-medium text-sm rounded-lg hover:border-slate-ghost active:scale-95 transition-all duration-150; }
+  .input { @apply w-full bg-ink-700 border border-slate-wire/50 rounded-lg px-3 py-2 text-sm text-slate-soft placeholder:text-slate-ghost focus:outline-none focus:border-plasma/60 transition-colors; }
+  .table-row { @apply border-b border-slate-wire/20 hover:bg-ink-700/40 transition-colors; }
+  .badge { @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wide; }
+  .badge-green  { @apply bg-volt/15 text-volt border border-volt/25; }
+  .badge-yellow { @apply bg-gold/15 text-gold border border-gold/25; }
+  .badge-red    { @apply bg-rose/15 text-rose border border-rose/25; }
+  .badge-blue   { @apply bg-plasma/15 text-plasma border border-plasma/25; }
+  .badge-gray   { @apply bg-slate-wire/20 text-slate-ghost border border-slate-wire/30; }
+  .sidebar-link { @apply flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-ghost text-sm font-medium hover:bg-ink-700 hover:text-slate-soft transition-all duration-150; }
+  .sidebar-link.active { @apply bg-volt/10 text-volt border-l-2 border-volt rounded-l-none; }
+}

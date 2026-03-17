@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique @db.VarChar(255)
+  password  String   @db.VarChar(255)
+  name      String   @db.VarChar(100)
+  role      Role     @default(ANALYST)
+  tenantId  Int
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([tenantId])
+  @@map("users")
+}
+
+model Tenant {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique @db.VarChar(100)
+  slug      String     @unique @db.VarChar(50)
+  plan      Plan       @default(STARTER)
+  isActive  Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  users     User[]
+  customers Customer[]
+  @@map("tenants")
+}
+
+model Customer {
+  id         Int          @id @default(autoincrement())
+  externalId String       @unique @default(uuid()) @db.VarChar(36)
+  email      String       @db.VarChar(255)
+  name       String       @db.VarChar(150)
+  kycStatus  KycStatus    @default(PENDING)
+  tenantId   Int
+  tenant     Tenant       @relation(fields: [tenantId], references: [id])
+  wallets    Wallet[]
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  @@unique([email, tenantId])
+  @@index([tenantId])
+  @@index([kycStatus])
+  @@map("customers")
+}
+
+model Wallet {
+  id           Int           @id @default(autoincrement())
+  externalId   String        @unique @default(uuid()) @db.VarChar(36)
+  customerId   Int
+  customer     Customer      @relation(fields: [customerId], references: [id])
+  currency     String        @db.Char(3) @default("USD")
+  balance      Decimal       @db.Decimal(22,8) @default(0)
+  status       WalletStatus  @default(ACTIVE)
+  transactions Transaction[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  @@unique([customerId, currency])
+  @@index([customerId])
+  @@map("wallets")
+}
+
+model Transaction {
+  id          Int             @id @default(autoincrement())
+  reference   String          @unique @default(uuid()) @db.VarChar(36)
+  walletId    Int
+  wallet      Wallet          @relation(fields: [walletId], references: [id])
+  type        TransactionType
+  amount      Decimal         @db.Decimal(18,4)
+  currency    String          @db.Char(3) @default("USD")
+  status      TxStatus        @default(COMPLETED)
+  description String?         @db.VarChar(255)
+  metadata    Json?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  @@index([walletId])
+  @@index([createdAt])
+  @@index([status])
+  @@index([type])
+  @@map("transactions")
+}
+
+enum Role {
+  SUPERADMIN
+  DBA
+  ANALYST
+  DEVELOPER
+  VIEWER
+}
+
+enum Plan {
+  STARTER
+  GROWTH
+  ENTERPRISE
+}
+
+enum KycStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+enum WalletStatus {
+  ACTIVE
+  FROZEN
+  CLOSED
+}
+
+enum TransactionType {
+  CREDIT
+  DEBIT
+  TRANSFER
+  FEE
+  REFUND
+}
+
+enum TxStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REVERSED
+}
