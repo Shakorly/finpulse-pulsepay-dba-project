@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-thumb { background: #253A55; border-radius: 2px; }
+}
+@layer components {
+  .card        { @apply bg-ink-800 border border-slate-wire/40 rounded-xl; }
+  .btn-primary { @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-pulse text-white font-semibold text-sm rounded-lg hover:bg-pulse-dim active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed; }
+  .btn-ghost   { @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-wire/50 text-slate-soft text-sm rounded-lg hover:border-slate-ghost active:scale-95 transition-all; }
+  .input       { @apply w-full bg-ink-700 border border-slate-wire/50 rounded-lg px-3 py-2.5 text-sm text-slate-soft placeholder:text-slate-ghost focus:outline-none focus:border-pulse/60 focus:ring-1 focus:ring-pulse/20 transition-colors; }
+  .label       { @apply block text-xs font-semibold uppercase tracking-wider text-slate-ghost mb-1.5; }
+  .badge-green { @apply inline-flex px-2 py-0.5 rounded text-xs font-bold bg-green/15 text-green border border-green/25; }
+  .badge-red   { @apply inline-flex px-2 py-0.5 rounded text-xs font-bold bg-red/15 text-red border border-red/25; }
+  .badge-gold  { @apply inline-flex px-2 py-0.5 rounded text-xs font-bold bg-gold/15 text-gold border border-gold/25; }
+  .badge-blue  { @apply inline-flex px-2 py-0.5 rounded text-xs font-bold bg-pulse/15 text-pulse border border-pulse/25; }
+  .badge-gray  { @apply inline-flex px-2 py-0.5 rounded text-xs font-bold bg-slate-wire/20 text-slate-ghost border border-slate-wire/30; }
+  .nav-link    { @apply flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-ghost text-sm font-medium hover:bg-ink-700 hover:text-slate-soft transition-all; }
+  .nav-link.active { @apply bg-pulse/10 text-pulse border-l-2 border-pulse rounded-l-none; }
+  .stat-label  { @apply text-xs font-bold uppercase tracking-widest text-slate-ghost; }
+}
