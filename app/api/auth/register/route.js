@@ -30,7 +30,7 @@ export async function POST(req) {
     })
 
     await prisma.wallet.create({
-      data: { customerId: customer.id, currency: 'USD', balance: 0, status: 'ACTIVE' }
+      data: { customerId: customer.id, currency: 'USD', balance: 1000, status: 'ACTIVE' }
     })
 
     const token = signToken({ id: customer.id, email: customer.email, name: customer.name, tenantId: customer.tenantId })
